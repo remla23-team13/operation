@@ -10,9 +10,10 @@ Finally there is the [model-training](https://github.com/remla23-team13/model-tr
 ## Instruction
 First clone the project:
 ```bash
-git clone git@github.com:remla23-team13/operation.git
+git clone --recursive git@github.com:remla23-team13/operation.git
 ```
-Run the following command in the root directory of this repo
+Run the following commands in the root directory of this repo
 ```bash
+docker compose build
 docker compose up
 ```
