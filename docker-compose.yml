@@ -2,13 +2,13 @@ version: "3"
 services:
 
  model-service:
-    image: ghcr.io/remla23-team13/model-service:latest
+    build:  ./model-service
     ports:
-      - "8080:8000"
+      - "8000:8000"
 
 
  app:
-    image: ghcr.io/remla23-team13/app:latest
+    build:  ./app
     ports:
-      - "8000:3000"
+      - "3000:3000"
 
