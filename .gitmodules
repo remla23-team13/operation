@@ -1,0 +1,6 @@
+[submodule "model-service"]
+	path = model-service
+	url = https://github.com/remla23-team13/model-service.git
+[submodule "app"]
+	path = app
+	url = https://github.com/remla23-team13/app.git
