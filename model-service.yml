@@ -31,4 +31,4 @@ spec:
     app: model-s
   ports:
     - port: 8000
-      targetPort: model-s-port
+      targetPort: 8000
