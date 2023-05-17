@@ -52,7 +52,8 @@ docker compose down
 ```
 
 ## Monitoring
-make sure the promethues repository is added to helm:
+(at the moment, monitoring is unstable)
+make sure the prometheus repository is added to helm:
 ```bash
 helm repo add prom-repo https://prometheus-community.github.io/helm-charts
 helm repo update
@@ -62,7 +63,7 @@ install prometheus stack:
 ```bash
 helm install group13-prom prom-repo/kube-prometheus-stack
 ```
-run prometheus:
+run prometheus (the service name may be different, check minikube service list):
 ```bash
 minikube service group13-prom-kube-prometheus-sta-prometheus --url
 ```
