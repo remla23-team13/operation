@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: model-s
-          image: ghcr.io/remla23-team13/model-service:latest
+          image: ghcr.io/remla23-team13/model-service:0.latest
           imagePullPolicy: Always
           ports:
             - name: model-s-port

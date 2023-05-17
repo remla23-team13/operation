@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: webapp
-          image: ghcr.io/remla23-team13/app:latest
+          image: ghcr.io/remla23-team13/app:0.latest
           imagePullPolicy: Always
           ports:
             - containerPort: 3000
