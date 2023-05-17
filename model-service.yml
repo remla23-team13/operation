@@ -25,6 +25,8 @@ apiVersion: v1
 kind: Service
 metadata:
   name: model-s-service
+  labels:
+    app: model-s-service
 spec:
   type: NodePort
   selector:

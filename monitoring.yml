@@ -2,9 +2,11 @@ apiVersion: monitoring.coreos.com/v1
 kind: ServiceMonitor
 metadata:
   name: monitoring-service-monitor
+  labels:
+    release: prometeus
 spec:
   selector:
     matchLabels:
-      app: model-service
+      app: model-s-service
   endpoints:
   - interval: 1s
