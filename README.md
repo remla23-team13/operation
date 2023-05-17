@@ -7,7 +7,35 @@ This is accomplished via a REST request to the model-service.
 There is also already scaffolding in-place for the app to make use of a library, which is located at [lib](https://github.com/remla23-team13/lib). 
 Finally there is the [model-training](https://github.com/remla23-team13/model-training) repository which will take care of the model training later. 
 
-## Instruction
+
+## Setup guide
+### Kubernetes
+#### Prerequisites
+- Minikube installed (version TODO), in this project the Docker driver is used. 
+- 
+
+
+First clone the project:
+```bash
+git clone git@github.com:remla23-team13/operation.git
+```
+Then run the following commands:
+```bash
+cd operation
+minikube start
+minikube addons enable ingress
+.\deploy.sh
+```
+To access the application via the browser:
+- MacOS: run minikube tunnel. Leave that terminal window open, you can now access the app on localhost.
+- Otherwise: run minikube service list. And use the URL of the ingress-nginx-controller. 
+
+You can use ```.\delete.sh``` to stop all kubernetes resources and stop Minikube.
+
+### Docker-Compose
+#### Prerequisites
+- TODO
+
 First clone the project:
 ```bash
 git clone git@github.com:remla23-team13/operation.git
@@ -16,4 +44,9 @@ Run the following commands in the root directory of this repo
 ```bash
 docker compose build
 docker compose up
+```
+
+To stop the containers use the following command
+```bash
+docker compose down
 ```
