@@ -17,7 +17,7 @@ spec:
                 name: webapp-service
                 port:
                   number: 3000
-          - path: /predict
+          - path: /model-s-service/predict
             pathType: Prefix
             backend:
               service:

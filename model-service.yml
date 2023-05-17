@@ -17,9 +17,13 @@ spec:
       containers:
         - name: model-s
           image: ghcr.io/remla23-team13/model-service:latest
+          imagePullPolicy: Always
           ports:
             - name: model-s-port
               containerPort: 8000
+          env:
+            - name: MODEL_PATH
+              value: /model-s-service
 ---
 apiVersion: v1
 kind: Service
