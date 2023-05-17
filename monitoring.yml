@@ -3,7 +3,7 @@ kind: ServiceMonitor
 metadata:
   name: monitoring-service-monitor
   labels:
-    release: prometeus
+    release: group13-prom
 spec:
   selector:
     matchLabels:

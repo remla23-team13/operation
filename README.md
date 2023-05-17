@@ -12,7 +12,7 @@ Finally there is the [model-training](https://github.com/remla23-team13/model-tr
 ### Kubernetes
 #### Prerequisites
 - Minikube installed (version TODO), in this project the Docker driver is used. 
-- 
+- Helm installed
 
 
 First clone the project:
@@ -49,4 +49,20 @@ docker compose up
 To stop the containers use the following command
 ```bash
 docker compose down
+```
+
+## Monitoring
+make sure the promethues repository is added to helm:
+```bash
+helm repo add prom-repo https://prometheus-community.github.io/helm-charts
+helm repo update
+```
+
+install prometheus stack:
+```bash
+helm install group13-prom prom-repo/kube-prometheus-stack
+```
+run prometheus:
+```bash
+minikube service group13-prom-kube-prometheus-sta-prometheus --url
 ```
