@@ -24,6 +24,13 @@ spec:
                 name: model-s-service
                 port:
                   number: 8000
+          - path: /model-s-service/wrong
+            pathType: Prefix
+            backend:
+              service:
+                name: model-s-service
+                port:
+                  number: 8000
   defaultBackend:
     service:
       name: webapp-service
