@@ -52,17 +52,18 @@ docker compose down
 ```
 
 ## Monitoring
-make sure the promethues repository is added to helm:
+Install the services using helm:
 ```bash
-helm repo add prom-repo https://prometheus-community.github.io/helm-charts
-helm repo update
+helm install <RELEASE_NAME> ./charts
+```
+The `RELEASE_NAME` variable can be any value.
+
+Expose the prometheus dashboard:
+```bash
+kubectl port-forward prometheus-<RELEASE_NAME>-kube-prometheus-stack-prometheus-0 9090:9090
 ```
 
-install prometheus stack:
+Prometheus in now available at:
 ```bash
-helm install group13-prom prom-repo/kube-prometheus-stack
-```
-run prometheus:
-```bash
-minikube service group13-prom-kube-prometheus-sta-prometheus --url
+http//localhost:9090
 ```
