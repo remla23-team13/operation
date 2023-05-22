@@ -7,10 +7,9 @@ metadata:
   name: my-ingress
 spec:
   rules:
-
      - http:
         paths:
-        {{- with $.Values.webapp }}
+          {{- with $.Values.webapp }}
           - path: /
             pathType: Prefix
             backend:
@@ -29,36 +28,3 @@ spec:
                 port:
                   number: {{ .port }}
         {{- end }}
-
-        {{- with $.Values.prometheus }}
-          - path: /prometheus
-            pathType: Prefix
-            backend:
-              service:
-                name: "{{ $.Release.Name }}-kube-prometheus-stack-prometheus"
-                port:
-                  number: {{ .port }}
-        {{- end }}
-
-        {{- with $.Values.grafana }}
-          - path: /grafana
-            pathType: Prefix
-            backend:
-              service:
-                name: "{{ $.Release.Name }}-{{ .name }}"
-                port:
-                  number: {{ .port }}
-        {{- end }}
-
-    # {{- with $.Values.grafana }}
-    #  - host: {{ .host }}
-    #    http:
-    #      paths:
-    #      - path: /
-    #        pathType: Prefix
-    #        backend:
-    #          service:
-    #            name: "{{  $.Release.Name }}-grafana"
-    #            port:
-    #              number: {{ .port }}
-    #    {{- end }}

@@ -51,19 +51,34 @@ To stop the containers use the following command
 docker compose down
 ```
 
-## Monitoring
+## Helm
+Make sure dependencies are installed:
+```bash
+helm dependency update 
+```
+
 Install the services using helm:
 ```bash
 helm install <RELEASE_NAME> ./charts
 ```
-The `RELEASE_NAME` variable can be any value.
+The `RELEASE_NAME` variable can be any string.
 
-Expose the prometheus dashboard:
+For macOS run:
 ```bash
-kubectl port-forward prometheus-<RELEASE_NAME>-kube-prometheus-stack-prometheus-0 9090:9090
+minikube tunnel 
 ```
 
-Prometheus in now available at:
+Then the application can be found at:
 ```bash
-http//localhost:9090
+http://localhost
+```
+
+Prometheus can be found at:
+```bash
+http://localhost/prometheus/graph
+```
+  
+Grafana can be found at:
+```bash
+http://localhost/grafana
 ```
