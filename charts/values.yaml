@@ -18,7 +18,12 @@ webapp:
 monitoring:
   name: monitoring-service-monitor
 
+prometheus:
+  port: 9090
+
 grafana:
+  name: grafana
+  port: 3000
 #     env:
 #       GF_SERVER_ROOT_URL: https://localhost:80/grafana
 #       GF_SERVER_SERVE_FROM_SUB_PATH: 'true'

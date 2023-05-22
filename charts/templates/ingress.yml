@@ -30,6 +30,26 @@ spec:
                   number: {{ .port }}
         {{- end }}
 
+        {{- with $.Values.prometheus }}
+          - path: /prometheus
+            pathType: Prefix
+            backend:
+              service:
+                name: "{{ $.Release.Name }}-kube-prometheus-stack-prometheus"
+                port:
+                  number: {{ .port }}
+        {{- end }}
+
+        {{- with $.Values.grafana }}
+          - path: /grafana
+            pathType: Prefix
+            backend:
+              service:
+                name: "{{ $.Release.Name }}-{{ .name }}"
+                port:
+                  number: {{ .port }}
+        {{- end }}
+
     # {{- with $.Values.grafana }}
     #  - host: {{ .host }}
     #    http:
