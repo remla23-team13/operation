@@ -9,3 +9,4 @@ kubectl apply -f kubernetes/webapp.yml
 kubectl apply -f kubernetes/ingress.yml
 
 minikube service list
+kubectl get pods
