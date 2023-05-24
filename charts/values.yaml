@@ -18,10 +18,15 @@ webapp:
 monitoring:
   name: monitoring-service-monitor
 
-prometheus:
-  port: 9090
-
 kube-prometheus-stack: 
+  prometheus:
+    ingress:
+      enabled: true
+      annotations:
+        kubernetes.io/ingress.class: nginx
+        nginx.ingress.kubernetes.io/rewrite-target: /$2
+      paths: ["/prometheus(/|$)(.*)"]
+
   grafana:
     env:
       GF_SERVER_ROOT_URL: https://localhost:80/grafana
@@ -35,3 +40,4 @@ kube-prometheus-stack:
         kubernetes.io/ingress.class: nginx
         nginx.ingress.kubernetes.io/rewrite-target: /$2
       path: "/grafana(/|$)(.*)"
+  
