@@ -51,19 +51,34 @@ To stop the containers use the following command
 docker compose down
 ```
 
-## Monitoring
-(at the moment, monitoring is unstable)
-make sure the prometheus repository is added to helm:
+## Helm
+Make sure dependencies are installed:
 ```bash
-helm repo add prom-repo https://prometheus-community.github.io/helm-charts
-helm repo update
+helm dependency update 
 ```
 
-install prometheus stack:
+Install the services using helm:
 ```bash
-helm install group13-prom prom-repo/kube-prometheus-stack
+helm install <RELEASE_NAME> ./charts
 ```
-run prometheus (the service name may be different, check minikube service list):
+The `RELEASE_NAME` variable can be any string.
+
+For macOS run:
 ```bash
-minikube service group13-prom-kube-prometheus-sta-prometheus --url
+minikube tunnel 
+```
+
+Then the application can be found at:
+```bash
+http://localhost
+```
+
+Prometheus can be found at:
+```bash
+http://localhost/prometheus/graph
+```
+  
+Grafana can be found at:
+```bash
+http://localhost/grafana
 ```

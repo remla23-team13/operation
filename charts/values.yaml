@@ -1,0 +1,37 @@
+modelService:
+  name: model-s
+  replicas: 1
+  tag: latest
+  port: 8000
+  modelPath: /model-s-service
+  service:  
+    name: model-s-service
+
+webapp:
+  name: webapp
+  replicas: 1
+  tag: latest
+  port: 3000
+  service:
+    name: webapp-service 
+
+monitoring:
+  name: monitoring-service-monitor
+
+prometheus:
+  port: 9090
+
+kube-prometheus-stack: 
+  grafana:
+    env:
+      GF_SERVER_ROOT_URL: https://localhost:80/grafana
+      GF_SERVER_SERVE_FROM_SUB_PATH: 'true'
+    # username is 'admin'
+    adminPassword: prom-operator
+    defaultDashboardsEnabled: false
+    ingress:
+      enabled: true
+      annotations:
+        kubernetes.io/ingress.class: nginx
+        nginx.ingress.kubernetes.io/rewrite-target: /$2
+      path: "/grafana(/|$)(.*)"
