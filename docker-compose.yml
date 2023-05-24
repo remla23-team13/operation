@@ -2,14 +2,14 @@ version: "3"
 services:
 
  model-service:
-    image: "ghcr.io/remla23-team13/model-service:latest"
+    image: "ghcr.io/remla23-team13/model-service:0.0.latest"
     ports:
       - "8000:8000"
 
  app:
     depends_on:
       - model-service
-    image: "ghcr.io/remla23-team13/app:latest"
+    image: "ghcr.io/remla23-team13/app:0.0.latest"
     ports:
       - "3000:3000"
 
