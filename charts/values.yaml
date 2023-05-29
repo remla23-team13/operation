@@ -4,6 +4,10 @@ modelService:
   tag: latest
   port: 8000
   modelPath: /model-s-service
+  modelUrl: https://drive.google.com/uc?id=1Ykfy1Eq_k3jZgLjGuzt5QI5_1T6NYrDO&export=download
+  modelFile: model.joblib
+  preprocessorUrl: https://drive.google.com/uc?id=1Ud_w0xAmpg6xfUX30DO6cGFSWX5hU3Qr&export=download
+  preprocessorFile: preprocessor.joblib
   service:  
     name: model-s-service
 
