@@ -11,19 +11,21 @@ spec:
     - match:
         - uri:
             regex: /model-s-service/.*
-      route:
-        - destination:
-            host: model-s
-#        - sourceLabels:
-#            version: v2
+          sourceLabels:
+            version: v2
 #      route:
 #        - destination:
 #            host: model-s
-#            subset: v2
+#        - sourceLabels:
+#            version: v2
+      route:
+        - destination:
+            host: model-s
+            subset: v2
 #    - route:
-#        - destination:
-#            host: model-s
-#            subset: v1
+        - destination:
+            host: model-s
+            subset: v1
     - match:
         - uri:
             prefix: /
