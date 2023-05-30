@@ -10,9 +10,9 @@ spec:
   http:
     - match:
         - uri:
-            regex: /model-s-service/.*
-          sourceLabels:
-            version: v2
+            prefix: /model-s-service/
+#          sourceLabels:
+#            version: v2
 #      route:
 #        - destination:
 #            host: model-s
@@ -22,10 +22,12 @@ spec:
         - destination:
             host: model-s
             subset: v2
+          weight: 50
 #    - route:
         - destination:
             host: model-s
             subset: v1
+          weight: 50
     - match:
         - uri:
             prefix: /
