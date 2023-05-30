@@ -1,40 +1,37 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: model-s-deployment
+  name: model-service-deployment
   labels:
-    app: model-s
+    app: model-service-deployment
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: model-s
+      app: model-service-deployment
   template:
     metadata:
       labels:
-        app: model-s
+        app: model-service-deployment
     spec:
       containers:
-        - name: model-s
-          image: ghcr.io/remla23-team13/model-service:0.latest
-          imagePullPolicy: Always
+        - name: model-service-deployment
+          image: backend-new:latest
+          imagePullPolicy: Never
           ports:
             - name: model-s-port
               containerPort: 8000
-          env:
-            - name: MODEL_PATH
-              value: /model-s-service
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: model-s-service
+  name: model-service
   labels:
-    app: model-s-service
+    app: model-service
 spec:
   type: NodePort
   selector:
-    app: model-s
+    app: model-service-deployment
   ports:
     - port: 8000
       targetPort: 8000
