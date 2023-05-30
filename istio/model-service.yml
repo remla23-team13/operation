@@ -1,0 +1,74 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: model-s-deployment-v1
+  labels: {app: model-s, version: v1}
+spec:
+  replicas: 1
+  selector:
+    matchLabels: {app: model-s, version: v1}
+  template:
+    metadata:
+      labels: {app: model-s, version: v1}
+    spec:
+      containers:
+        - name: model-s
+          image: ghcr.io/remla23-team13/model-service:0.1.4
+          imagePullPolicy: Always
+          ports:
+            - name: model-s-port
+              containerPort: 8000
+          env:
+            - name: MODEL_PATH
+              value: /model-s-service
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: model-s-deployment-v2
+  labels: {app: model-s, version: v2}
+spec:
+  replicas: 1
+  selector:
+    matchLabels: {app: model-s, version: v2}
+  template:
+    metadata:
+      labels: {app: model-s, version: v2}
+    spec:
+      containers:
+        - name: model-s
+          image: ghcr.io/remla23-team13/model-service:0.latest
+          imagePullPolicy: Always
+          ports:
+            - name: model-s-port
+              containerPort: 8000
+          env:
+            - name: MODEL_PATH
+              value: /model-s-service
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: model-s
+spec:
+  type: NodePort
+  selector:
+    app: model-s
+  ports:
+    - name: http
+      port: 8000
+      targetPort: 8000
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: DestinationRule
+metadata:
+  name: model-s
+spec:
+  host: model-s
+  subsets:
+    - name: v1
+      labels:
+        version: v1
+    - name: v2
+      labels:
+        version: v2

@@ -31,6 +31,7 @@ cd operation
 
 ## Helm
 
+Run ```minikube start```.
 Make sure dependencies are installed:
 ```bash
 helm dependency update ./charts
@@ -60,8 +61,27 @@ To stop Helm use:
 helm uninstall <RELEASE_NAME>
 ```
 
-### Kubernetes
+### Istio
+For testing purposes it is also possible to deploy the app using Istio.
 
+
+### prerequisites
+- [istioctl](https://istio.io/latest/docs/setup/install/istioctl/) installed
+- [Istio v1.17.2.](https://github.com/istio/istio/releases/tag/1.17.2) release downloaded in same folder as repository
+
+Make sure you start minikube with enough resources, otherwise the application may not function. 
+Then run the scripts, the first will install Istio onto your minikube cluster in addition to some nice addons. 
+The second will apply the needed kubernetes files. 
+```bash
+minikube start --memory=10000 --cpus=4
+./setup_istio.sh
+./deploy_istio.sh
+```
+
+Run ```./delete_istio.sh``` to remove the webapp and the istio addons. 
+This does not uninstall the istioctl installation or remove the istio enabled label. 
+
+### Kubernetes
 Then run the following commands:
 ```bash
 minikube start

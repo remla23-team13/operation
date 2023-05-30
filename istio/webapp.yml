@@ -1,0 +1,71 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: webapp-deployment-v1
+  labels: {app: webapp, version: v1}
+spec:
+  replicas: 1
+  selector:
+    matchLabels: {app: webapp, version: v1}
+  template:
+    metadata:
+      labels: {app: webapp, version: v1}
+    spec:
+      containers:
+        - name: webapp
+          image: ghcr.io/remla23-team13/app:0.latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 3000
+          env:
+            - name: REACT_APP_API_MODEL_PATH
+              value: /model-s-service
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: webapp-deployment-v2
+  labels: {app: webapp, version: v2}
+spec:
+  replicas: 1
+  selector:
+    matchLabels: {app: webapp, version: v2}
+  template:
+    metadata:
+      labels: {app: webapp, version: v2}
+    spec:
+      containers:
+        - name: webapp
+          image: ghcr.io/remla23-team13/app:0.latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 3000
+          env:
+            - name: REACT_APP_API_MODEL_PATH
+              value: /model-s-service
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: webapp
+spec:
+  selector:
+    app: webapp
+  ports:
+    - name: http
+      port: 3000
+      targetPort: 3000
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: DestinationRule
+metadata:
+  name: webapp
+spec:
+  host: webapp
+  subsets:
+    - name: v1
+      labels:
+        version: v1
+    - name: v2
+      labels:
+        version: v2
