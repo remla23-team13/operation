@@ -1,26 +1,35 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: model-service-deployment
+  name: model-deployment
   labels:
-    app: model-service-deployment
+    app: model-deployment
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: model-service-deployment
+      app: model-deployment
   template:
     metadata:
       labels:
-        app: model-service-deployment
+        app: model-deployment
     spec:
       containers:
-        - name: model-service-deployment
+        - name: model-deployment
           image: ghcr.io/remla23-team13/model-service:1.0.0
           imagePullPolicy: Always
           ports:
-            - name: model-s-port
+            - name: model-port
               containerPort: 8000
+          env:
+            - name: MODEL_URL
+              value: https://drive.google.com/uc?id=1Ykfy1Eq_k3jZgLjGuzt5QI5_1T6NYrDO&export=download
+            - name: MODEL_FILE
+              value: model.joblib
+            - name: PREPROCESSOR_URL
+              value: https://drive.google.com/uc?id=1Ud_w0xAmpg6xfUX30DO6cGFSWX5hU3Qr&export=download
+            - name: PREPROCESSOR_FILE
+              value: preprocessor.joblib
 ---
 apiVersion: v1
 kind: Service
@@ -31,7 +40,7 @@ metadata:
 spec:
   type: NodePort
   selector:
-    app: model-service-deployment
+    app: model-deployment
   ports:
     - port: 8000
       targetPort: 8000

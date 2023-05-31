@@ -2,55 +2,55 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: webapp-deployment-v1
-  labels: {app: webapp, version: v1}
+  labels: {app: webapp-deployment, version: v1}
 spec:
   replicas: 1
   selector:
-    matchLabels: {app: webapp, version: v1}
+    matchLabels: {app: webapp-deployment, version: v1}
   template:
     metadata:
-      labels: {app: webapp, version: v1}
+      labels: {app: webapp-deployment, version: v1}
     spec:
       containers:
-        - name: webapp
-          image: ghcr.io/remla23-team13/app:0.latest
+        - name: webapp-deployment
+          image: ghcr.io/remla23-team13/app:1.0.0
           imagePullPolicy: Always
           ports:
             - containerPort: 3000
           env:
-            - name: REACT_APP_API_MODEL_PATH
-              value: /model-s-service
+            - name: MODEL_SERVICE_URL
+              value: http://model-service:8000
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: webapp-deployment-v2
-  labels: {app: webapp, version: v2}
+  labels: {app: webapp-deployment, version: v2}
 spec:
   replicas: 1
   selector:
-    matchLabels: {app: webapp, version: v2}
+    matchLabels: {app: webapp-deployment, version: v2}
   template:
     metadata:
-      labels: {app: webapp, version: v2}
+      labels: {app: webapp-deployment, version: v2}
     spec:
       containers:
-        - name: webapp
-          image: ghcr.io/remla23-team13/app:0.latest
+        - name: webapp-deployment
+          image: ghcr.io/remla23-team13/app:1.0.1
           imagePullPolicy: Always
           ports:
             - containerPort: 3000
           env:
-            - name: REACT_APP_API_MODEL_PATH
-              value: /model-s-service
+            - name: MODEL_SERVICE_URL
+              value: http://model-service:8000
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: webapp
+  name: webapp-service
 spec:
   selector:
-    app: webapp
+    app: webapp-deployment
   ports:
     - name: http
       port: 3000
@@ -59,9 +59,9 @@ spec:
 apiVersion: networking.istio.io/v1alpha3
 kind: DestinationRule
 metadata:
-  name: webapp
+  name: webapp-service-rule
 spec:
-  host: webapp
+  host: webapp-service
   subsets:
     - name: v1
       labels:
