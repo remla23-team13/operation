@@ -16,8 +16,8 @@ spec:
     spec:
       containers:
         - name: webapp
-          image: frontend-new:latest
-          imagePullPolicy: Never
+          image: ghcr.io/remla23-team13/app:1.0.0
+          imagePullPolicy: Always
           ports:
             - containerPort: 3000
           env:

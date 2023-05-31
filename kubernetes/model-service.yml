@@ -16,8 +16,8 @@ spec:
     spec:
       containers:
         - name: model-service-deployment
-          image: backend-new:latest
-          imagePullPolicy: Never
+          image: ghcr.io/remla23-team13/model-service:1.0.0
+          imagePullPolicy: Always
           ports:
             - name: model-s-port
               containerPort: 8000
