@@ -13,7 +13,7 @@ spec:
     spec:
       containers:
         - name: model-deployment
-          image: ghcr.io/remla23-team13/model-service:1.0.0
+          image: ghcr.io/remla23-team13/model-service:2.0.0
           imagePullPolicy: Always
           ports:
             - name: model-s-port
@@ -43,7 +43,7 @@ spec:
     spec:
       containers:
         - name: model-deployment
-          image: ghcr.io/remla23-team13/model-service:1.0.1
+          image: ghcr.io/remla23-team13/model-service:2.0.0
           imagePullPolicy: Always
           ports:
             - name: model-port-v2
