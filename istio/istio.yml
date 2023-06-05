@@ -1,74 +1,78 @@
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
 metadata:
-  name: my-entry-service
+  name: webapp-virtual-service
 spec:
   gateways:
-    - my-istio-gateway
+    - istio-gateway
   hosts:
     - "*"
   http:
     - match:
         - uri:
-            prefix: /model-s-service/
-#          sourceLabels:
-#            version: v2
-#      route:
-#        - destination:
-#            host: model-s
-#        - sourceLabels:
-#            version: v2
+            prefix: /
+          headers:
+            cookie:
+              regex: ".*AppVersion=v1.*"
       route:
         - destination:
-            host: model-s
-            subset: v2
-          weight: 50
-#    - route:
-        - destination:
-            host: model-s
+            host: webapp-service # stable
             subset: v1
-          weight: 50
+    - match:
+        - uri:
+            prefix: /
+          headers:
+            cookie:
+              regex: ".*AppVersion=v2.*"
+      route:
+        - destination:
+            host: webapp-service # stable
+            subset: v2
     - match:
         - uri:
             prefix: /
       route:
         - destination:
-            host: webapp
+            host: webapp-service
             subset: v1
           weight: 50
+          headers:
+            response:
+              set:
+                Set-Cookie: "AppVersion=v1; Path=/"
         - destination:
-            host: webapp
+            host: webapp-service
             subset: v2
           weight: 50
-#---
-#apiVersion: networking.istio.io/v1alpha3
-#kind: VirtualService
-#metadata:
-#  name: model-s
-#spec:
-#  gateways:
-#    - my-istio-gateway
-#  hosts:
-#    - "model.example.com"
-#  http:
-#    - match:
-#        - uri:
-#            regex: /model-s-service/.*
-#        - sourceLabels:
-#            version: v2
-#      route:
-#        - destination:
-#            host: model-s
-#            subset: v2
-#    - route:
-#        - destination:
-#            host: model-s
-#            subset: v1
+          headers:
+            response:
+              set:
+                Set-Cookie: "AppVersion=v2; Path=/"
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: model-virtual-service
+spec:
+  hosts:
+    - model-service
+  http:
+    - match:
+        - sourceLabels:
+            version: v2
+      route:
+        - destination:
+            host: model-service
+            subset: v2
+    - route:
+        - destination:
+            host: model-service
+            subset: v1
 ---
 apiVersion: networking.istio.io/v1alpha3
 kind: Gateway
 metadata:
-  name: my-istio-gateway
+  name: istio-gateway
 spec:
   selector:
     istio: ingressgateway
