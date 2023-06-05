@@ -21,6 +21,9 @@ spec:
           ports:
             - name: "{{ .portName }}"
               containerPort: {{ .port }}
+          volumeMounts:
+            - mountPath: /root/main.py
+              name: my-volume
           env:
             - name: MODEL_PATH
               value: {{ .modelPath }}
@@ -32,6 +35,10 @@ spec:
               value: {{ .preprocessorUrl }}
             - name: PREPROCESSOR_FILE
               value: {{ .preprocessorFile }}
+      volumes:
+        - name: my-volume
+          hostPath:
+            path: ./volumes/main.py
 ---
 apiVersion: v1
 kind: Service
