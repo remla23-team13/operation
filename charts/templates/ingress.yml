@@ -18,13 +18,3 @@ spec:
                 port:
                   number: {{ .port }}
         {{- end }}
-
-        {{- with $.Values.modelService }}
-          - path: /model-s-service/.*
-            pathType: Prefix
-            backend:
-              service:
-                name: {{ .service.name }}
-                port:
-                  number: {{ .port }}
-        {{- end }}
