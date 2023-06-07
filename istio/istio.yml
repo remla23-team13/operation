@@ -11,15 +11,43 @@ spec:
     - match:
         - uri:
             prefix: /
+          headers:
+            cookie:
+              regex: ".*AppVersion=v1.*"
+      route:
+        - destination:
+            host: webapp-service # stable
+            subset: v1
+    - match:
+        - uri:
+            prefix: /
+          headers:
+            cookie:
+              regex: ".*AppVersion=v2.*"
+      route:
+        - destination:
+            host: webapp-service # stable
+            subset: v2
+    - match:
+        - uri:
+            prefix: /
       route:
         - destination:
             host: webapp-service
             subset: v1
-          weight: 50 
+          weight: 50
+          headers:
+            response:
+              set:
+                Set-Cookie: "AppVersion=v1; Path=/"
         - destination:
             host: webapp-service
             subset: v2
-          weight: 50 
+          weight: 50
+          headers:
+            response:
+              set:
+                Set-Cookie: "AppVersion=v2; Path=/"
 ---
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
