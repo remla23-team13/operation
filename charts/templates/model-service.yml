@@ -54,12 +54,12 @@ spec:
             - name: PREPROCESSOR_FILE
               value: {{ .preprocessorFile }}
           volumeMounts:
-            - mountPath: /app/volumes
-              name: my-volume
+            - mountPath: {{ .volume.mountPath }}
+              name: {{ .volume.name }}
       volumes:
-        - name: my-volume
+        - name: {{ .volume.name }}
           hostPath:
-            path: /volumes
+            path: {{ .volume.hostPath }}
 ---
 apiVersion: v1
 kind: Service
