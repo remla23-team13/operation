@@ -2,7 +2,7 @@ version: "3"
 services:
 
  model-service:
-    image: "backend-new:latest"
+    image: "ghcr.io/remla23-team13/model-service:0.0.latest"
     ports:
       - "8000:8000"
     # volumes:
