@@ -1,0 +1,87 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: model-deployment-v1
+  labels: {app: model-deployment, version: v1}
+spec:
+  replicas: 1
+  selector:
+    matchLabels: {app: model-deployment, version: v1}
+  template:
+    metadata:
+      labels: {app: model-deployment, version: v1}
+    spec:
+      containers:
+        - name: model-deployment
+          image: ghcr.io/remla23-team13/model-service:2.0.0
+          imagePullPolicy: Always
+          ports:
+            - name: model-s-port
+              containerPort: 8000
+          env:
+            - name: MODEL_URL
+              value: https://drive.google.com/uc?id=1Ykfy1Eq_k3jZgLjGuzt5QI5_1T6NYrDO&export=download
+            - name: MODEL_FILE
+              value: model.joblib
+            - name: PREPROCESSOR_URL
+              value: https://drive.google.com/uc?id=1Ud_w0xAmpg6xfUX30DO6cGFSWX5hU3Qr&export=download
+            - name: PREPROCESSOR_FILE
+              value: preprocessor.joblib
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: model-deployment-v2
+  labels: {app: model-deployment, version: v2}
+spec:
+  replicas: 1
+  selector:
+    matchLabels: {app: model-deployment, version: v2}
+  template:
+    metadata:
+      labels: {app: model-deployment, version: v2}
+    spec:
+      containers:
+        - name: model-deployment
+          image: ghcr.io/remla23-team13/model-service:2.0.0
+          imagePullPolicy: Always
+          ports:
+            - name: model-port-v2
+              containerPort: 8000
+          env:
+            - name: MODEL_URL
+              value: https://drive.google.com/uc?id=1Ykfy1Eq_k3jZgLjGuzt5QI5_1T6NYrDO&export=download
+            - name: MODEL_FILE
+              value: model.joblib
+            - name: PREPROCESSOR_URL
+              value: https://drive.google.com/uc?id=1Ud_w0xAmpg6xfUX30DO6cGFSWX5hU3Qr&export=download
+            - name: PREPROCESSOR_FILE
+              value: preprocessor.joblib
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: model-service
+spec:
+  type: NodePort
+  selector:
+    app: model-deployment
+  ports:
+    - name: http
+      port: 8000
+      targetPort: 8000
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: DestinationRule
+metadata:
+  name: model-service-rule
+spec:
+  host: model-service
+  subsets:
+    - name: v1
+      labels:
+        version: v1
+    - name: v2
+      labels:
+        version: v2

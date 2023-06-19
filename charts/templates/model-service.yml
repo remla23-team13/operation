@@ -2,28 +2,36 @@ apiVersion: apps/v1
 kind: Deployment
 {{- with $.Values.modelService }}
 metadata:
-  name: "{{ .name }}-deployment"
+  name: "{{ .deploymentName }}"
   labels:
-    app: {{ .name }}
+    app: {{ .deploymentName }}
 spec:
   replicas: {{ .replicas }}
   selector:
     matchLabels:
-      app: {{ .name }}
+      app: {{ .deploymentName }}
   template:
     metadata:
       labels:
-        app: {{ .name }}
+        app: {{ .deploymentName }}
     spec:
       containers:
-        - name: {{ .name }}
+        - name: {{ .deploymentName }}
           image: "ghcr.io/remla23-team13/model-service:{{ .tag }}"
           ports:
-            - name: "{{ .name }}-port"
+            - name: "{{ .portName }}"
               containerPort: {{ .port }}
           env:
             - name: MODEL_PATH
               value: {{ .modelPath }}
+            - name: MODEL_URL
+              value: {{ .modelUrl }}
+            - name: MODEL_FILE
+              value: {{ .modelFile }}
+            - name: PREPROCESSOR_URL
+              value: {{ .preprocessorUrl }}
+            - name: PREPROCESSOR_FILE
+              value: {{ .preprocessorFile }}
 ---
 apiVersion: v1
 kind: Service
@@ -33,9 +41,9 @@ metadata:
     app: "{{ .service.name }}"
 spec:
   selector:
-    app: {{ .name }}
+    app: {{ .deploymentName }}
   ports:
-    - name: "{{ .name }}-port"
+    - name: "{{ .portName }}"
       port: {{ .port }}
       targetPort: {{ .port }}
 {{- end }}
