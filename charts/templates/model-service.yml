@@ -38,13 +38,11 @@ spec:
 
           env:
             - name: MODEL_PATH
-{{/*              value: {{ .modelPath }}*/}}
               valueFrom:
                 secretKeyRef:
                   name: model-service-secret
                   key: model-path
             - name: MODEL_URL
-{{/*              value: {{ .modelUrl }}*/}}
               valueFrom:
                 configMapKeyRef:
                   name: model-service-configmap
