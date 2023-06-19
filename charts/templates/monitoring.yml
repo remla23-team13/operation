@@ -10,4 +10,4 @@ spec:
       app: {{ .Values.modelService.service.name }}
   endpoints:
     - interval: 1s
-      port: "{{ .Values.modelService.name }}-port"
+      port: "{{ .Values.modelService.portName }}"
