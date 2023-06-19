@@ -97,6 +97,7 @@ You can use ```./delete_kub.sh``` to stop all kubernetes resources and ```stop M
 If you were wondering why we our model-service has been added to the ingress, this has to do with how React handles requests.
 
 ### Docker-Compose
+**_NOTE:_** This version users an older image of the webapp and model-service.
 Run the following commands in the root directory of this repo
 ```bash
 docker compose up

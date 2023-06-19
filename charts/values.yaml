@@ -11,6 +11,10 @@ modelService:
   preprocessorFile: preprocessor.joblib
   service:  
     name: model-service
+  volume:
+    name: my-volume
+    hostPath: /volumes
+    mountPath: /app/volumes
 
 webapp:
   name: webapp
