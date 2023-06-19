@@ -5,8 +5,8 @@ services:
     image: "ghcr.io/remla23-team13/model-service:0.0.latest"
     ports:
       - "8000:8000"
-#    volumes:
-#      - ./volumes/main.py:/root/main.py
+    # volumes:
+    #   - ./volumes/main.py:/root/main.py
 
  app:
    image: "ghcr.io/remla23-team13/app:0.0.latest"
