@@ -1,6 +1,20 @@
+{{- with $.Values.modelService }}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: model-service-configmap
+data:
+  model-url: "{{ .modelUrl }}"
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: model-service-secret
+data:
+  model-path: "{{ .modelPath }}"
+---
 apiVersion: apps/v1
 kind: Deployment
-{{- with $.Values.modelService }}
 metadata:
   name: "{{ .deploymentName }}"
   labels:
@@ -21,24 +35,33 @@ spec:
           ports:
             - name: "{{ .portName }}"
               containerPort: {{ .port }}
-          volumeMounts:
-            - mountPath: /root/main.py
-              name: my-volume
+
           env:
             - name: MODEL_PATH
-              value: {{ .modelPath }}
+{{/*              value: {{ .modelPath }}*/}}
+              valueFrom:
+                secretKeyRef:
+                  name: model-service-secret
+                  key: model-path
             - name: MODEL_URL
-              value: {{ .modelUrl }}
+{{/*              value: {{ .modelUrl }}*/}}
+              valueFrom:
+                configMapKeyRef:
+                  name: model-service-configmap
+                  key: model-url
             - name: MODEL_FILE
               value: {{ .modelFile }}
             - name: PREPROCESSOR_URL
               value: {{ .preprocessorUrl }}
             - name: PREPROCESSOR_FILE
               value: {{ .preprocessorFile }}
+          volumeMounts:
+            - mountPath: /app/volumes
+              name: my-volume
       volumes:
         - name: my-volume
           hostPath:
-            path: ./volumes/main.py
+            path: /volumes
 ---
 apiVersion: v1
 kind: Service
