@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+{{- with .Values.webapp }}
+metadata:
+  name: "{{ .name }}-deployment"
+spec:
+  replicas: {{ .replicas }}
+  selector:
+    matchLabels:
+      app: {{ .name }}
+  template:
+    metadata:
+      labels:
+        app: {{ .name }}
+    spec:
+      containers: 
+        - name: {{ .name }}
+          image: "ghcr.io/remla23-team13/app:{{ .tag }}"
+          ports:
+            - containerPort: {{ .port }}
+          env:
+            - name: MODEL_SERVICE_URL
+              value: "http://{{ $.Values.modelService.service.name }}:{{ $.Values.modelService.port }}"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .service.name }}
+spec:
+  selector:
+    app: {{ .name }}
+  ports:
+    - port: {{ .port }}
+      targetPort: {{ .port }}
+{{- end }}
+
+

@@ -1,0 +1,75 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: model-service-configmap
+data:
+  model-url: "https://drive.google.com/uc?id=1Ykfy1Eq_k3jZgLjGuzt5QI5_1T6NYrDO&export=download"
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: model-service-secret
+data:
+  model-path: "{{ .modelPath }}"
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: "model-service-deployment"
+  labels:
+    app: model-service-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: model-service-deployment
+  template:
+    metadata:
+      labels:
+        app: model-service-deployment
+    spec:
+      containers:
+        - name: model-service-deployment
+          image: "ghcr.io/remla23-team13/model-service:{{ .tag }}"
+          ports:
+            - name: "model-port"
+              containerPort: 8000
+
+          env:
+            - name: MODEL_PATH
+              valueFrom:
+                secretKeyRef:
+                  name: model-service-secret
+                  key: model-path
+            - name: MODEL_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: model-service-configmap
+                  key: model-url
+            - name: MODEL_FILE
+              value: model.joblib
+            - name: PREPROCESSOR_URL
+              value: https://drive.google.com/uc?id=1Ud_w0xAmpg6xfUX30DO6cGFSWX5hU3Qr&export=download
+            - name: PREPROCESSOR_FILE
+              value: preprocessor.joblib
+          volumeMounts:
+            - mountPath: /app/volumes
+              name: my-volume
+      volumes:
+        - name: my-volume
+          hostPath:
+            path: /volumes
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: "model-service"
+  labels:
+    app: "model-service"
+spec:
+  selector:
+    app: model-service-deployment
+  ports:
+    - name: "model-port"
+      port: 8000
+      targetPort: 8000
