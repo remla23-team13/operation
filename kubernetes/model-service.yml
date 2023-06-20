@@ -10,7 +10,7 @@ kind: Secret
 metadata:
   name: model-service-secret
 data:
-  model-path: "{{ .modelPath }}"
+  model-file: "bW9kZWwuam9ibGli"
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -30,24 +30,22 @@ spec:
     spec:
       containers:
         - name: model-service-deployment
-          image: "ghcr.io/remla23-team13/model-service:{{ .tag }}"
+          image: "ghcr.io/remla23-team13/model-service:2.0.0"
           ports:
             - name: "model-port"
               containerPort: 8000
 
           env:
-            - name: MODEL_PATH
-              valueFrom:
-                secretKeyRef:
-                  name: model-service-secret
-                  key: model-path
             - name: MODEL_URL
               valueFrom:
                 configMapKeyRef:
                   name: model-service-configmap
                   key: model-url
             - name: MODEL_FILE
-              value: model.joblib
+              valueFrom:
+                secretKeyRef:
+                  name: model-service-secret
+                  key: model-file
             - name: PREPROCESSOR_URL
               value: https://drive.google.com/uc?id=1Ud_w0xAmpg6xfUX30DO6cGFSWX5hU3Qr&export=download
             - name: PREPROCESSOR_FILE
