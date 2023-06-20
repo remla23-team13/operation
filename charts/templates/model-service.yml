@@ -11,7 +11,7 @@ kind: Secret
 metadata:
   name: model-service-secret
 data:
-  model-path: "{{ .modelPath }}"
+  model-file: "{{ .modelFileEncoded }}"
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -37,18 +37,16 @@ spec:
               containerPort: {{ .port }}
 
           env:
-            - name: MODEL_PATH
-              valueFrom:
-                secretKeyRef:
-                  name: model-service-secret
-                  key: model-path
             - name: MODEL_URL
               valueFrom:
                 configMapKeyRef:
                   name: model-service-configmap
                   key: model-url
             - name: MODEL_FILE
-              value: {{ .modelFile }}
+              valueFrom:
+                secretKeyRef:
+                  name: model-service-secret
+                  key: model-file
             - name: PREPROCESSOR_URL
               value: {{ .preprocessorUrl }}
             - name: PREPROCESSOR_FILE
