@@ -10,10 +10,13 @@ spec:
   template:
     metadata:
       labels: {app: model-deployment, version: v1}
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/port: "8000"
     spec:
       containers:
         - name: model-deployment
-          image: ghcr.io/remla23-team13/model-service:2.0.0
+          image: ghcr.io/remla23-team13/model-service:3.0.3
           imagePullPolicy: Always
           ports:
             - name: model-s-port
@@ -40,10 +43,13 @@ spec:
   template:
     metadata:
       labels: {app: model-deployment, version: v2}
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/port: "8000"
     spec:
       containers:
         - name: model-deployment
-          image: ghcr.io/remla23-team13/model-service:2.0.0
+          image: ghcr.io/remla23-team13/model-service:3.0.3
           imagePullPolicy: Always
           ports:
             - name: model-port-v2

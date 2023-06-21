@@ -13,7 +13,7 @@ spec:
             prefix: /
           headers:
             cookie:
-              regex: ".*AppVersion=v1.*"
+              regex: ^(.\*?;)?(AppVersion=v1)(;.\*)?$
       route:
         - destination:
             host: webapp-service # stable
@@ -23,7 +23,7 @@ spec:
             prefix: /
           headers:
             cookie:
-              regex: ".*AppVersion=v2.*"
+              regex: ^(.\*?;)?(AppVersion=v2)(;.\*)?$
       route:
         - destination:
             host: webapp-service # stable
