@@ -19,8 +19,13 @@ modelService:
 
 webapp:
   name: webapp
+  version1:
+    version: v1
+    tag: 2.0.0
+  version2:
+    version: v2
+    tag: 2.0.1
   replicas: 1
-  tag: 2.0.0
   port: 3000
   service:
     name: webapp-service 

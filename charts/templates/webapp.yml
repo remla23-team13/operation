@@ -2,20 +2,43 @@ apiVersion: apps/v1
 kind: Deployment
 {{- with .Values.webapp }}
 metadata:
-  name: "{{ .name }}-deployment"
+  name: "{{ .name }}-deployment-{{ .version1.version }}"
+  labels: {app: {{ .name }}, version: {{ .version1.version }}}
 spec:
   replicas: {{ .replicas }}
   selector:
-    matchLabels:
-      app: {{ .name }}
+    matchLabels: {app: {{ .name }}, version: {{ .version1.version }}}
   template:
     metadata:
-      labels:
-        app: {{ .name }}
+      labels: {app: {{ .name }}, version: {{ .version1.version }}}
     spec:
       containers: 
         - name: {{ .name }}
-          image: "ghcr.io/remla23-team13/app:{{ .tag }}"
+          image: "ghcr.io/remla23-team13/app:{{ .version1.tag }}"
+          imagePullPolicy: Always
+          ports:
+            - containerPort: {{ .port }}
+          env:
+            - name: MODEL_SERVICE_URL
+              value: "http://{{ $.Values.modelService.service.name }}:{{ $.Values.modelService.port }}"
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: "{{ .name }}-deployment-{{ .version2.version }}"
+  labels: {app: {{ .name }}, version: {{ .version2.version }}}
+spec:
+  replicas: {{ .replicas }}
+  selector:
+    matchLabels: {app: {{ .name }}, version: {{ .version2.version }}}
+  template:
+    metadata:
+      labels: {app: {{ .name }}, version: {{ .version2.version }}}
+    spec:
+      containers:
+        - name: {{ .name }}
+          image: "ghcr.io/remla23-team13/app:{{ .version2.tag }}"
+          imagePullPolicy: Always
           ports:
             - containerPort: {{ .port }}
           env:
@@ -32,6 +55,20 @@ spec:
   ports:
     - port: {{ .port }}
       targetPort: {{ .port }}
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: DestinationRule
+metadata:
+  name: "{{ .service.name }}-rule"
+spec:
+  host: {{ .service.name }}
+  subsets:
+    - name: {{ .version1.version }}
+      labels:
+        version: {{ .version1.version }}
+    - name: {{ .version2.version }}
+      labels:
+        version: {{ .version2.version }}
 {{- end }}
 
 
