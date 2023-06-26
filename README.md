@@ -29,7 +29,7 @@ git clone git@github.com:remla23-team13/operation.git
 cd operation
 ```
 
-## Helm
+### Helm
 
 Run ```minikube start```.
 Make sure dependencies are installed:
@@ -80,6 +80,11 @@ minikube start --memory=10000 --cpus=4
 
 Run ```./delete_istio.sh``` to remove the webapp and the istio addons. 
 This does not uninstall the istioctl installation or remove the istio enabled label. 
+
+#### Continuous Experimentation
+The Istio setup also allows us to live test two different versions of the system. We hope to verify that the background colour of the webapp affects the users' sentiments and reviews. In order to achieve this, we track the positive prediction ratio of each version, to determine if a significant difference exists.
+
+To test the routing, we recommend deleting all the cookies associated with localhost, then opening a private window in your browser. To access the other version of the app, close the private window and then go to localhost on a new private window. Repeat the process if you got the same version.
 
 ### Kubernetes
 Then run the following commands:
