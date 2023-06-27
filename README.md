@@ -60,8 +60,7 @@ helm uninstall <RELEASE_NAME>
 - [istioctl](https://istio.io/latest/docs/setup/install/istioctl/)(v1.17.2) is installed
 
 Make sure you start minikube with enough resources, otherwise the application may not function. 
-Then run the scripts, the first will install Istio onto your minikube cluster in addition to some nice addons. 
-All files in `istio/addons` were copied from the Istio v1.17.2. release file. 
+Then run the scripts, the first will install Istio onto your minikube cluster in addition to some nice addons.
 The second will apply our project specific Kubernetes files. 
 ```bash
 minikube start --memory=7500 --cpus=4
@@ -69,7 +68,14 @@ minikube start --memory=7500 --cpus=4
 ./deploy_istio.sh
 ```
 
-Run `./delete_istio.sh` to delete all deployed Kubernetes deployments, delete the addons, and uninstall Istio from the cluster.
+All files in `istio/addons` were copied from the Istio v1.17.2. release file.
+You can access the different addons using `istioctl dashboard <ADDON_NAME>`.
+Currently, you can access Grafana, Jaeger, Kiali and Prometheus.
+Run `./delete_istio.sh` to 
+- delete all deployed Kubernetes deployments
+- delete the addons
+- disable istio-injections
+- uninstall Istio from the cluster
 
 ### Docker-Compose
 Run the following commands in the root directory of this repo
