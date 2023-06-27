@@ -17,7 +17,7 @@ Important note: good is actually classified as having a negative sentiment, try 
 #### Prerequisites
 - Minikube v1.30
   - Docker driver is used
-  - Ingress is enabled: ```minikube addons enable ingress```
+  - Ingress is enabled: `minikube addons enable ingress```
 - Helm v3.11
 - Docker v20.10
 - Docker Compose v2.4
@@ -28,24 +28,22 @@ git clone git@github.com:remla23-team13/operation.git
 cd operation
 ```
 ---
-**NOTE:** To access either the Helm or Istio deployed the application via the browser:
-- MacOS: run ```minikube tunnel```. Leave that terminal window open, you can now access the app on localhost.
-- Otherwise: run ```minikube service list```. And use the URL of the ingress-nginx-controller.
+**NOTE:** To access either the Helm or Istio deployed the application via the browser use `minikube tunnel`
 ---
 
 ## Helm
-Run ```minikube start```.
+Run `minikube start`.
 Make sure dependencies are installed and install the Helm charts. 
-We recommend "whoop" as the ```<RELEASE NAME>```.
+We recommend "whoop" as the `<RELEASE NAME>`.
 ```bash
 helm dependency update ./charts
 helm install <RELEASE_NAME> ./charts
 ```
 
 To access the different endpoints use: 
-- Webapp: ```http://localhost```
-- Prometheus: ```http://localhost/prometheus/graph```
-- Grafana: ```http://localhost/grafana```
+- Webapp: `http://localhost`
+- Prometheus: `http://localhost/prometheus/graph`
+- Grafana: `http://localhost/grafana`
 
 For Grafana you can use the following default login credentials:
 - user: admin
@@ -71,12 +69,12 @@ minikube start --memory=7500 --cpus=4
 ./deploy_istio.sh
 ```
 
-Run ```./delete_istio.sh``` to delete all deployed Kubernetes deployments, delete the addons, and uninstall Istio from the cluster.
+Run `./delete_istio.sh` to delete all deployed Kubernetes deployments, delete the addons, and uninstall Istio from the cluster.
 
 ### Docker-Compose
 Run the following commands in the root directory of this repo
 ```bash
 docker compose up
 ```
-You can now access the application in your browser at: ```http://localhost:3000```
-To stop the containers use ```docker compose down```.
+You can now access the application in your browser at: `http://localhost:3000`.
+To stop the containers use `docker compose down`.
