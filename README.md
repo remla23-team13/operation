@@ -57,12 +57,12 @@ helm uninstall <RELEASE_NAME>
 ### Istio
 
 ### prerequisites
-- [istioctl](https://istio.io/latest/docs/setup/install/istioctl/) installed
-- [Istio v1.17.2.](https://github.com/istio/istio/releases/tag/1.17.2) release downloaded in same folder as the repository
+- [istioctl](https://istio.io/latest/docs/setup/install/istioctl/)(v1.17.2) is installed
 
 Make sure you start minikube with enough resources, otherwise the application may not function. 
 Then run the scripts, the first will install Istio onto your minikube cluster in addition to some nice addons. 
-The second will apply the needed Kubernetes files. 
+All files in `istio/addons` were copied from the Istio v1.17.2. release file. 
+The second will apply our project specific Kubernetes files. 
 ```bash
 minikube start --memory=7500 --cpus=4
 ./setup_istio.sh

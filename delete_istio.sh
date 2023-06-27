@@ -1,13 +1,11 @@
 #!/bin/bash
-printf "Deleting all istio Kubernetes components\n"
+printf "\n--------\nDeleting all istio Kubernetes components\n--------\n"
 kubectl delete -f istio/
-printf "Deleting all istio addons\n"
-kubectl delete -f ../istio-1.17.2/samples/addons/prometheus.yaml
-kubectl delete -f ../istio-1.17.2/samples/addons/jaeger.yaml
-kubectl delete -f ../istio-1.17.2/samples/addons/kiali.yaml
-printf "Disabling istio-injection\n"
-kubectl label ns default istio-injection=enabled
-printf "Uninstalling istioctl from cluster\n"
-istioctl uninstall
+printf "\n--------\nDeleting all istio addons\n--------\n"
+kubectl delete -f istio/addons/
+printf "\n--------\nDisabling istio-injection\n--------\n"
+kubectl label ns default istio-injection=disabled
+printf "\n--------\nUninstalling istioctl from cluster\n--------\n"
+istioctl uninstall --purge
 
 kubectl get pods
