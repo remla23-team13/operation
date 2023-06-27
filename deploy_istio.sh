@@ -1,6 +1,6 @@
 #!/bin/bash
 
-printf "Deploying Kubernetes components...\n"
+printf "Deploying Kubernetes components for istio...\n"
 kubectl apply -f istio/
 
 minikube service list
