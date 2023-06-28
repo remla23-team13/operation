@@ -19,7 +19,7 @@ kind: Secret
 metadata:
   name: {{ .secret.name }}
 data:
-  {{ .secret.key }}: {{ .secret.modelFileEncoded }}
+  {{ .secret.key }}: {{ .secret.value }}
 ---
 apiVersion: apps/v1
 kind: Deployment

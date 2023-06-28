@@ -16,9 +16,9 @@ modelService:
     urlName: model-service-configmap
     urlKey: model-url
   secret:
-      name: model-service-secret
-      key: model-file
-      modelFileEncoded: bW9kZWwuam9ibGl
+    name: model-service-secret
+    key: model-file
+    value: bW9kZWwuam9ibGli
   volume:
     name: my-volume
     configMap: volume-config
