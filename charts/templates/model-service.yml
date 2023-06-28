@@ -2,14 +2,14 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: model-service-configmap
+  name: {{ .configMaps.urlName }}
 data:
-  model-url: "{{ .modelUrl }}"
+  {{ .configMaps.urlKey }}: "{{ .modelUrl }}"
 ---
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: volume-config
+  name: {{ .volume.configMap }}
 data:
   config.yaml: |
     testing: volumes
@@ -17,14 +17,14 @@ data:
 apiVersion: v1
 kind: Secret
 metadata:
-  name: model-service-secret
+  name: {{ .secret.name }}
 data:
-  model-file: "{{ .modelFileEncoded }}"
+  {{ .secret.key }}: {{ .secret.modelFileEncoded }}
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: "{{ .deploymentName }}"
+  name: {{ .deploymentName }}
   labels:
     app: {{ .deploymentName }}
 spec:
@@ -41,20 +41,20 @@ spec:
         - name: {{ .deploymentName }}
           image: "ghcr.io/remla23-team13/model-service:{{ .tag }}"
           ports:
-            - name: "{{ .portName }}"
+            - name: {{ .portName }}
               containerPort: {{ .port }}
 
           env:
             - name: MODEL_URL
               valueFrom:
                 configMapKeyRef:
-                  name: model-service-configmap
-                  key: model-url
+                  name: {{ .configMaps.urlName }}
+                  key: {{ .configMaps.urlKey }}
             - name: MODEL_FILE
               valueFrom:
                 secretKeyRef:
-                  name: model-service-secret
-                  key: model-file
+                  name: {{ .secret.name }}
+                  key: {{ .secret.key }}
             - name: PREPROCESSOR_URL
               value: {{ .preprocessorUrl }}
             - name: PREPROCESSOR_FILE
@@ -65,19 +65,19 @@ spec:
       volumes:
         - name: {{ .volume.name }}
           configMap:
-            name: volume-config
+            name: {{ .volume.configMap }}
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: "{{ .service.name }}"
+  name: {{ .service.name }}
   labels:
-    app: "{{ .service.name }}"
+    app: {{ .service.name }}
 spec:
   selector:
     app: {{ .deploymentName }}
   ports:
-    - name: "{{ .portName }}"
+    - name: {{ .portName }}
       port: {{ .port }}
       targetPort: {{ .port }}
 {{- end }}
