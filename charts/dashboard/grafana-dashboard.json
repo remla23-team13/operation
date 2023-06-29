@@ -74,8 +74,8 @@
             "type": "prometheus",
             "uid": "prometheus"
           },
-          "editorMode": "builder",
-          "expr": "wrong_prediction_ratio",
+          "editorMode": "code",
+          "expr": "wrong_prediction_ratio{webapp=\"\"}",
           "legendFormat": "__auto",
           "range": true,
           "refId": "A"
@@ -373,16 +373,21 @@
       "type": "gauge"
     }
   ],
-  "refresh": false,
+  "refresh": "",
   "schemaVersion": 38,
   "style": "dark",
   "tags": [],
   "templating": {
     "list": []
   },
+  "time": {
+    "from": "now-1h",
+    "to": "now"
+  },
   "timepicker": {},
   "timezone": "",
   "title": "WHOOP",
-  "version": 0,
+  "uid": "d689b5ac-09e2-48aa-be84-8c2e734b431e",
+  "version": 1,
   "weekStart": ""
 }
