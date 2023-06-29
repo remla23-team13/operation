@@ -47,13 +47,14 @@ helm install <RELEASE_NAME> ./charts
 
 To access the different endpoints use: 
 - Webapp: `http://localhost`
-- Prometheus: `http://localhost/prometheus/graph`
+- Prometheus: `http://localhost/prometheus/graph` (see [model-service](https://github.com/remla23-team13/model-service) for a better understanding of the tracked metrics)
 - Grafana: `http://localhost/grafana`
 
 For Grafana you can use the following default login credentials:
 - user: admin
 - password: prom-operator
 You can see our pre-configured dashboards by clicking the menu on the right, dashboards and then select `General/Whoop`.
+You can also manually install our dashboard (although it's installed automatically) by importing this [file](charts/dashboard/grafana-dashboard.json) in the Dashboards section of the Grafana website.
 
 To stop Helm and remove the prometheus service monitor use the following command:
 ```bash
@@ -92,6 +93,8 @@ To test the routing, we recommend deleting all the cookies associated with local
 To access the other version of the app, close the private window and then go to localhost on a new private window. 
 Repeat the process if you got the same version.
 
+To open the prometheus dashboard run `istioctl dashboard prometheus` and then verify the differences between the two deployments with a querie like `positive_prediction_ratio`.
+
 ### Docker-Compose
 Run the following commands in the root directory of this repo
 ```bash
@@ -99,3 +102,4 @@ docker compose up
 ```
 You can now access the application in your browser at: `http://localhost:3000`.
 To stop the containers use `docker compose down`.
+If you want to access SwaggerUI for model-service, you need to add a port mapping for it, as it is required for it to not be accessible.
