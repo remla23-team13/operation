@@ -36,13 +36,11 @@ First clone the project:
 git clone git@github.com:remla23-team13/operation.git
 cd operation
 ```
-
 ---
 **NOTE:** 
 To access either the Helm or Istio deployed the application via the browser use `minikube tunnel`
 ---
-
-## Helm
+### Helm
 Run `minikube start`.
 Make sure dependencies are installed and install the Helm charts. 
 We recommend "whoop" as the `<RELEASE NAME>`.
@@ -81,7 +79,6 @@ minikube start --memory=7500 --cpus=4
 ./setup_istio.sh
 ./deploy_istio.sh
 ```
-
 All files in `istio/addons` were copied from the Istio v1.17.2. release file.
 You can access the different addons using `istioctl dashboard <ADDON_NAME>`.
 Currently, you can access Grafana, Jaeger, Kiali and Prometheus.
@@ -90,6 +87,14 @@ Run `./delete_istio.sh` to
 - delete the addons
 - disable istio-injections
 - uninstall Istio from the cluster
+
+#### Continuous Experimentation
+The Istio setup also allows us to live test two different versions of the system. 
+We hope to verify that the background colour of the webapp affects the users' sentiments and reviews. 
+In order to achieve this, we track the positive prediction ratio of each version, to determine if a significant difference exists.
+To test the routing, we recommend deleting all the cookies associated with localhost, then opening a private window in your browser. 
+To access the other version of the app, close the private window and then go to localhost on a new private window. 
+Repeat the process if you got the same version.
 
 ### Docker-Compose
 Run the following commands in the root directory of this repo
