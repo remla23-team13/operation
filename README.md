@@ -59,11 +59,14 @@ To access the different endpoints use:
 For Grafana you can use the following default login credentials:
 - user: admin
 - password: prom-operator
+You can see our pre-configured dashboards by clicking the menu on the right, dashboards and then select `General/Whoop`.
 
-To stop Helm use:
+To stop Helm and remove the prometheus service monitor use the following command:
 ```bash
 helm uninstall <RELEASE_NAME>
+kubectl delete svc whoop-kube-prometheus-stac-kubelet --namespace=kube-system
 ```
+The explicit deletion of the prometheus service is necessary since it will otherwise interfere with further helm installations.
 
 ### Istio
 
