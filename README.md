@@ -22,8 +22,8 @@ Important note: good is actually classified as having a negative sentiment, try 
 ## Set-up guide
 #### Prerequisites
 - Minikube v1.30
-  - Docker driver is used
-  - Ingress is enabled: `minikube addons enable ingress```
+  - Docker driver is used: `--driver=docker`
+  - Ingress is enabled: `minikube addons enable ingress`
 - Helm v3.11
 - Docker v20.10
 - Docker Compose v2.4
