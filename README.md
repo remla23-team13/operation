@@ -45,10 +45,12 @@ helm dependency update ./charts
 helm install <RELEASE_NAME> ./charts
 ```
 
-To access the different endpoints use: 
+To access the different endpoints In **MacOS** or **Windows** use: 
 - Webapp: `http://localhost`
 - Prometheus: `http://localhost/prometheus/graph` (see [model-service](https://github.com/remla23-team13/model-service) for a better understanding of the tracked metrics)
 - Grafana: `http://localhost/grafana`
+  
+To access these pages in **Linux**, you should replace localhost with the IP of the ingress found with the ```minikube service list``` command.
 
 For Grafana you can use the following default login credentials:
 - user: admin
