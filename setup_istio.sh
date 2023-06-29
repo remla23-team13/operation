@@ -1,8 +1,10 @@
 #!/bin/bash
+
+printf "\n--------\nInstalling istioctl in cluster\n--------\n"
 istioctl install
+printf "\n--------\nEnabling istio-injection\n--------\n"
 kubectl label ns default istio-injection=enabled
-kubectl apply -f ../istio-1.17.2/samples/addons/prometheus.yaml
-kubectl apply -f ../istio-1.17.2/samples/addons/jaeger.yaml
-kubectl apply -f ../istio-1.17.2/samples/addons/kiali.yaml
+printf "\n--------\nAdding istio addons: Prometheus, Jaeger and Kiali\n--------\n"
+kubectl apply -f istio/addons/
 kubectl get ns default --show-labels
 istioctl analyze

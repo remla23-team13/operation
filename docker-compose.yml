@@ -1,15 +1,21 @@
-version: "3"
+version: "3.9"
 services:
 
  model-service:
-    image: "backend-new:latest"
-    ports:
-      - "8000:8000"
+    image: "ghcr.io/remla23-team13/model-service:3.0.latest"
+    volumes:
+      - ./volumes/:/app/volumes/
+    environment:
+      - MODEL_URL=https://drive.google.com/uc?id=1Ykfy1Eq_k3jZgLjGuzt5QI5_1T6NYrDO&export=download
+      - MODEL_FILE=model.joblib
+      - PREPROCESSOR_URL=https://drive.google.com/uc?id=1Ud_w0xAmpg6xfUX30DO6cGFSWX5hU3Qr&export=download
+      - PREPROCESSOR_FILE=preprocessor.joblib
 
  app:
-    depends_on:
-      - model-service
-    image: "frontend-new:latest"
-    ports:
-      - "3000:3000"
-
+   image: "ghcr.io/remla23-team13/app:2.0.latest"
+   ports:
+     - "3000:3000"
+   depends_on:
+     - model-service
+   environment:
+     -  MODEL_SERVICE_URL=http://model-service:8000

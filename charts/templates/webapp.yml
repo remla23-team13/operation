@@ -20,7 +20,7 @@ spec:
             - containerPort: {{ .port }}
           env:
             - name: MODEL_SERVICE_URL
-              value: http://model-service:8000
+              value: "http://{{ $.Values.modelService.service.name }}:{{ $.Values.modelService.port }}"
 ---
 apiVersion: v1
 kind: Service
@@ -32,7 +32,6 @@ spec:
   ports:
     - port: {{ .port }}
       targetPort: {{ .port }}
-  type: ClusterIP
 {{- end }}
 
 

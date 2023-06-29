@@ -1,8 +1,30 @@
+{{- with $.Values.modelService }}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .configMaps.urlName }}
+data:
+  {{ .configMaps.urlKey }}: "{{ .modelUrl }}"
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .volume.configMap }}
+data:
+  config.yaml: |
+    testing: volumes
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: {{ .secret.name }}
+data:
+  {{ .secret.key }}: {{ .secret.value }}
+---
 apiVersion: apps/v1
 kind: Deployment
-{{- with $.Values.modelService }}
 metadata:
-  name: "{{ .deploymentName }}"
+  name: {{ .deploymentName }}
   labels:
     app: {{ .deploymentName }}
 spec:
@@ -19,31 +41,43 @@ spec:
         - name: {{ .deploymentName }}
           image: "ghcr.io/remla23-team13/model-service:{{ .tag }}"
           ports:
-            - name: "{{ .portName }}"
+            - name: {{ .portName }}
               containerPort: {{ .port }}
+
           env:
-            - name: MODEL_PATH
-              value: {{ .modelPath }}
             - name: MODEL_URL
-              value: {{ .modelUrl }}
+              valueFrom:
+                configMapKeyRef:
+                  name: {{ .configMaps.urlName }}
+                  key: {{ .configMaps.urlKey }}
             - name: MODEL_FILE
-              value: {{ .modelFile }}
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .secret.name }}
+                  key: {{ .secret.key }}
             - name: PREPROCESSOR_URL
               value: {{ .preprocessorUrl }}
             - name: PREPROCESSOR_FILE
               value: {{ .preprocessorFile }}
+          volumeMounts:
+            - name: {{ .volume.name }}
+              mountPath: {{ .volume.mountPath }}
+      volumes:
+        - name: {{ .volume.name }}
+          configMap:
+            name: {{ .volume.configMap }}
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: "{{ .service.name }}"
+  name: {{ .service.name }}
   labels:
-    app: "{{ .service.name }}"
+    app: {{ .service.name }}
 spec:
   selector:
     app: {{ .deploymentName }}
   ports:
-    - name: "{{ .portName }}"
+    - name: {{ .portName }}
       port: {{ .port }}
       targetPort: {{ .port }}
 {{- end }}
