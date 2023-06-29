@@ -2,25 +2,33 @@ modelService:
   name: model-service
   deploymentName: model-service-deployment
   replicas: 1
-  tag: 2.0.0
+  tag: 3.latest
   port: 8000
   portName: model-port
   modelUrl: https://drive.google.com/uc?id=1Ykfy1Eq_k3jZgLjGuzt5QI5_1T6NYrDO&export=download
   modelFile: model.joblib
-  modelFileEncoded: bW9kZWwuam9ibGli
   preprocessorUrl: https://drive.google.com/uc?id=1Ud_w0xAmpg6xfUX30DO6cGFSWX5hU3Qr&export=download
   preprocessorFile: preprocessor.joblib
   service:  
     name: model-service
+  configMaps:
+    vol: volume-config
+    urlName: model-service-configmap
+    urlKey: model-url
+  secret:
+    name: model-service-secret
+    key: model-file
+    value: bW9kZWwuam9ibGli
   volume:
     name: my-volume
+    configMap: volume-config
     hostPath: /volumes
     mountPath: /app/volumes
 
 webapp:
   name: webapp
   replicas: 1
-  tag: 2.0.0
+  tag: 2.latest
   port: 3000
   service:
     name: webapp-service 
